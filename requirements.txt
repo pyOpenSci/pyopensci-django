@@ -1,0 +1,3 @@
+# Core Django and Wagtail
+Django>=5.1.6
+wagtail>=7.0.2
