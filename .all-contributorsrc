@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "Phinart98",
+      "name": "Philip Narteh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43896066?v=4",
+      "profile": "https://www.philipnarteh.me/",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "pyopensci-django",
+  "projectOwner": "pyOpenSci"
+}
