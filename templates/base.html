@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PyOpenSci - Broadening participation in scientific open source{% endblock %}</title>
+    
+    <!-- TailwindCSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;500;600;700&family=Itim&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="h-full bg-gray-50 font-nunito">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-bold text-pyos-deep-purple">pyOpenSci</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">
+                            Peer Review <i class="fas fa-caret-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">About peer review</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">How to submit a package</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Community partners</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">
+                            Python Packaging <i class="fas fa-caret-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Packaging resources</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Our packages</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">Learn</a>
+                    <a href="#" class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">Community</a>
+                    <a href="/blog/" class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">Blog</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="lg:hidden">
+                    <button type="button" class="text-gray-700 hover:text-gray-900 focus:outline-none">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-pyos-footer-gray py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Social Media Links -->
+            <div class="mb-8">
+                <div class="flex flex-wrap justify-center gap-6 text-sm">
+                    <a href="https://fosstodon.org/@pyOpenSci" class="text-pyos-footer-text hover:text-pyos-deep-purple transition-colors" rel="nofollow noopener noreferrer me">
+                        <i class="fab fa-mastodon mr-1"></i> Mastodon
+                    </a>
+                    <a href="https://www.linkedin.com/company/pyopensci" class="text-pyos-footer-text hover:text-pyos-deep-purple transition-colors" rel="nofollow noopener noreferrer">
+                        <i class="fab fa-linkedin mr-1"></i> LinkedIn
+                    </a>
+                    <a href="https://github.com/pyOpenSci" class="text-pyos-footer-text hover:text-pyos-deep-purple transition-colors" rel="nofollow noopener noreferrer">
+                        <i class="fab fa-github mr-1"></i> GitHub
+                    </a>
+                    <a href="https://discord.gg/yYyDFP2BcP" class="text-pyos-footer-text hover:text-pyos-deep-purple transition-colors" rel="nofollow noopener noreferrer">
+                        <i class="fa-brands fa-discord mr-1"></i> Discord
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Organizational Information -->
+            <div class="text-center space-y-4 text-sm text-pyos-footer-text mb-6 px-4">
+                <p>pyOpenSci is a fiscally sponsored project of <a href="https://communityinitiatives.org/" target="_blank" class="text-pyos-deep-purple hover:underline">Community Initiatives</a>, a registered 501(c)3 non-profit organization based in California, USA.</p>
+                <p>pyOpensci is dedicated to creating a welcoming, supportive and diverse community around the open source Python tools that drive open science.</p>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="text-center text-sm text-gray-500">
+                <p>&copy; 2025 pyOpenSci</p>
+            </div>
+        </div>
+    </footer>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

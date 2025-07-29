@@ -11,6 +11,7 @@ A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS
 Before setting up the project locally, make sure you have the following installed:
 
 - **Python 3.8+** - [Download from python.org](https://www.python.org/downloads/)
+- **Node.js** - [Download from nodejs.org](https://nodejs.org/) (for TailwindCSS)
 
 ## Local Development Setup
 
@@ -32,28 +33,37 @@ source venv/bin/activate
 ```bash
 # Install Python packages
 pip install -r requirements.txt
+
+# Install Node.js packages for TailwindCSS
+npm install
 ```
 
-### 3. Set Up Database and Run Server
+### 3. Build CSS and Set Up Database
 
 ```bash
+# Build TailwindCSS stylesheets
+npm run build-prod
+
 # Run migrations
 python manage.py migrate
 
 # Create superuser (optional - for admin access)
 python manage.py createsuperuser
+```
 
-# Start development server
+### 4. Run Development Server
+
+```bash
+# Start Django development server
 python manage.py runserver
 ```
 
-Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) to see the site.
+## Testing the Homepage Migration
 
-### 4. Access Wagtail Admin
-
-Visit [http://127.0.0.1:8000/cms/](http://127.0.0.1:8000/cms/) to access the Wagtail admin interface.
-
-A repository to test out a django site for pyOpenSci
+- **Homepage (Django)**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- **Blog (Wagtail)**: [http://127.0.0.1:8000/blog/](http://127.0.0.1:8000/blog/)
+- **Wagtail Admin**: [http://127.0.0.1:8000/cms/](http://127.0.0.1:8000/cms/)
+- **Django Admin**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
 
 ## Contributors ✨
 
