@@ -1,0 +1,12 @@
+{
+  "name": "pyopensci-django",
+  "version": "1.0.0",
+  "description": "PyOpenSci Django website with Wagtail CMS",
+  "scripts": {
+    "build": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --watch",
+    "build-prod": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

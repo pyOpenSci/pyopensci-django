@@ -4,20 +4,6 @@ from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel
 
 
-class HomePage(Page):
-    """
-    Basic homepage model for PyOpenSci
-    """
-    body = RichTextField(blank=True)
-
-    content_panels = Page.content_panels + [
-        FieldPanel('body'),
-    ]
-
-    class Meta:
-        verbose_name = "Home Page"
-
-
 class BlogIndexPage(Page):
     """
     Index page for blog posts
