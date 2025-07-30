@@ -10,52 +10,40 @@ A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS
 
 Before setting up the project locally, make sure you have the following installed:
 
-- **Python 3.8+** - [Download from python.org](https://www.python.org/downloads/)
+- **Python 3.12+** - [Download from python.org](https://www.python.org/downloads/)
+- **uv** - [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
 - **Node.js** - [Download from nodejs.org](https://nodejs.org/) (for TailwindCSS)
 
 ## Local Development Setup
 
-### 1. Set Up Python Virtual Environment
+### 1. Set Up Python Environment with uv
 
 ```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-```
-
-### 2. Install Dependencies
-
-```bash
-# Install Python packages
-pip install -r requirements.txt
+# Install all dependencies and create virtual environment
+uv sync
 
 # Install Node.js packages for TailwindCSS
 npm install
 ```
 
-### 3. Build CSS and Set Up Database
+### 2. Build CSS and Set Up Database
 
 ```bash
 # Build TailwindCSS stylesheets
 npm run build-prod
 
-# Run migrations
-python manage.py migrate
+# Run migrations using uv
+uv run python manage.py migrate
 
 # Create superuser (optional - for admin access)
-python manage.py createsuperuser
+uv run python manage.py createsuperuser
 ```
 
-### 4. Run Development Server
+### 3. Run Development Server
 
 ```bash
 # Start Django development server
-python manage.py runserver
+uv run python manage.py runserver
 ```
 
 ## Testing the Homepage Migration

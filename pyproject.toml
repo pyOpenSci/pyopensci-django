@@ -1,0 +1,9 @@
+[project]
+name = "pyopensci-django"
+version = "0.1.0"
+description = "A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS"
+requires-python = ">=3.12"
+dependencies = [
+    "Django>=5.1.6",
+    "wagtail>=7.0.2",
+]
