@@ -10,8 +10,12 @@ A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS
 
 Before setting up the project locally, make sure you have the following installed:
 
-- **Python 3.12+** - [Download from python.org](https://www.python.org/downloads/)
-- **uv** - [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
+- First, install **uv** - [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
+- Then make sure you have **Python 3.12+** installed. You can install it using uv:
+
+```shell
+$ uv python install 3.12
+```
 - **Node.js** - [Download from nodejs.org](https://nodejs.org/) (for TailwindCSS)
 
 ## Local Development Setup
