@@ -14,7 +14,7 @@ module.exports = {
           'medium-purple': '#735fab',
           'light-purple': '#e1dfed',
           'footer-gray': '#eae6ea',
-          'footer-text': '#bbc0c0',
+          'footer-text': '#4a5568',
           'teal': '#81c0aa',
         }
       },
