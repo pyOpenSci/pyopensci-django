@@ -6,9 +6,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="relative bg-gradient-to-r from-pyos-deep-purple to-pyos-dark-purple text-white overflow-hidden">
-    {% hero_image "headers/pyopensci-sprints" "PyOpenSci community members working together at sprints" %}
-    <div class="absolute inset-0 bg-black opacity-60"></div>
+<section class="relative text-white overflow-hidden" style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('{% static "images/headers/pyopensci-sprints.png" %}'); background-size: cover; background-position: center;">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div class="text-center">
             <h1 class="text-4xl md:text-6xl font-bold mb-6 font-poppins">Welcome to pyOpenSci</h1>
@@ -98,9 +96,9 @@
             Broadening participation in scientific open source
         </h2>
         
-        <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
             <div>
-                <div class="h-64 rounded-lg overflow-hidden">
+                <div class="h-80 rounded-lg overflow-hidden">
                     {% responsive_image "pyopensci-sprint-pycon-2023" "Image showing 3 people working at 2 computers during a sprint at PyCon USA 2023" "w-full h-full object-cover rounded-lg" %}
                 </div>
             </div>
