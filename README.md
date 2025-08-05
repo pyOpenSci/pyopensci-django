@@ -38,12 +38,19 @@ npm run build-prod
 
 # Run migrations using uv
 uv run python manage.py migrate
+```
 
+### 3. Create an admin user (optional)
+
+If you wish to try out the Django Admin dashboard or Wagtail dashboard,
+create a superuser (admin) account which can be used for Django Admin and Wagtail:
+
+```bash
 # Create superuser (optional - for admin access)
 uv run python manage.py createsuperuser
 ```
 
-### 3. Run Development Server
+### 4. Run Development Server
 
 ```bash
 # Start Django development server
