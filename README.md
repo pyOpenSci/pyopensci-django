@@ -1,6 +1,7 @@
 # pyopensci-django
 
-A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS
+A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS.
+I am making a pull request demo. 
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
