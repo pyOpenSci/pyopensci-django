@@ -60,17 +60,38 @@ class Contributor(models.Model):
     
     @property
     def display_name(self) -> str:
-        """Return name if available, otherwise GitHub username."""
+        """
+        Return name if available, otherwise GitHub username.
+        
+        Returns
+        -------
+        str
+            The contributor's display name.
+        """
         return self.name or f"@{self.github_username}"
     
     @property
     def github_avatar_url(self) -> Optional[str]:
-        """Generate GitHub avatar URL from image ID."""
+        """
+        Generate GitHub avatar URL from image ID.
+        
+        Returns
+        -------
+        str or None
+            GitHub avatar URL if image ID exists, None otherwise.
+        """
         if self.github_image_id:
             return f"https://avatars.githubusercontent.com/u/{self.github_image_id}?s=400&v=4"
         return None
     
     @property
     def github_profile_url(self) -> str:
-        """Generate GitHub profile URL."""
+        """
+        Generate GitHub profile URL.
+        
+        Returns
+        -------
+        str
+            GitHub profile URL for the contributor.
+        """
         return f"https://github.com/{self.github_username}"

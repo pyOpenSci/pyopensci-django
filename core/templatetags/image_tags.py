@@ -10,14 +10,21 @@ def responsive_image(image_path, alt_text="", css_classes="", sizes="100vw"):
     """
     Generate a responsive picture element with WebP and PNG fallback.
     
-    Args:
-        image_path: Path to the image without extension (e.g., 'headers/pyopensci-sprints')
-        alt_text: Alt text for accessibility
-        css_classes: CSS classes to apply to the img element
-        sizes: Sizes attribute for responsive images
+    Parameters
+    ----------
+    image_path : str
+        Path to the image without extension (e.g., 'headers/pyopensci-sprints').
+    alt_text : str, default ""
+        Alt text for accessibility.
+    css_classes : str, default ""
+        CSS classes to apply to the img element.
+    sizes : str, default "100vw"
+        Sizes attribute for responsive images.
     
-    Returns:
-        HTML picture element with WebP and PNG fallback
+    Returns
+    -------
+    str
+        HTML picture element with WebP and PNG fallback.
     """
     webp_path = static(f"images/{image_path}.webp")
     png_path = static(f"images/{image_path}.png")
@@ -37,12 +44,17 @@ def hero_image(image_path, alt_text=""):
     """
     Generate a hero image with WebP support and optimized loading.
     
-    Args:
-        image_path: Path to the image without extension
-        alt_text: Alt text for accessibility
+    Parameters
+    ----------
+    image_path : str
+        Path to the image without extension.
+    alt_text : str, default ""
+        Alt text for accessibility.
     
-    Returns:
-        HTML picture element optimized for hero sections
+    Returns
+    -------
+    str
+        HTML picture element optimized for hero sections.
     """
     return responsive_image(
         image_path=image_path,
@@ -57,12 +69,17 @@ def card_image(image_path, alt_text=""):
     """
     Generate a card image with WebP support.
     
-    Args:
-        image_path: Path to the image without extension
-        alt_text: Alt text for accessibility
+    Parameters
+    ----------
+    image_path : str
+        Path to the image without extension.
+    alt_text : str, default ""
+        Alt text for accessibility.
     
-    Returns:
-        HTML picture element optimized for card layouts
+    Returns
+    -------
+    str
+        HTML picture element optimized for card layouts.
     """
     return responsive_image(
         image_path=image_path,

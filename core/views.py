@@ -7,7 +7,19 @@ logger = logging.getLogger(__name__)
 
 
 def home(request):
-    """Homepage view for PyOpenSci."""
+    """
+    Homepage view for PyOpenSci.
+    
+    Parameters
+    ----------
+    request : HttpRequest
+        Django HTTP request object.
+        
+    Returns
+    -------
+    HttpResponse
+        Rendered home page with recent contributors data.
+    """
     # Fetch recent contributors from YAML
     recent_contributors = get_recent_contributors(count=4)
     

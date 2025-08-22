@@ -24,14 +24,20 @@ def fetch_contributors_yaml(url: str = None) -> List[Dict[str, Any]]:
     """
     Fetch contributor data from YAML source.
     
-    Args:
-        url: URL to fetch YAML from. If None, uses the default pyOpenSci GitHub URL.
+    Parameters
+    ----------
+    url : str, optional
+        URL to fetch YAML from. If None, uses the default pyOpenSci GitHub URL.
         
-    Returns:
+    Returns
+    -------
+    list of dict
         List of contributor dictionaries.
         
-    Raises:
-        ContributorDataError: If data cannot be fetched or parsed.
+    Raises
+    ------
+    ContributorDataError
+        If data cannot be fetched or parsed.
     """
     if url is None:
         url = "https://raw.githubusercontent.com/pyOpenSci/pyopensci.github.io/main/_data/contributors.yml"
@@ -62,10 +68,14 @@ def parse_contributor_date(date_str: Any) -> Optional[datetime]:
     """
     Parse a date string into a datetime object.
     
-    Args:
-        date_str: Date string in various formats.
+    Parameters
+    ----------
+    date_str : Any
+        Date string in various formats.
         
-    Returns:
+    Returns
+    -------
+    datetime or None
         Parsed datetime object or None if parsing fails.
     """
     if not date_str:
@@ -96,10 +106,14 @@ def clean_contributor_data(contributor: Dict[str, Any]) -> Dict[str, Any]:
     """
     Clean and normalize contributor data.
     
-    Args:
-        contributor: Raw contributor dictionary from YAML.
+    Parameters
+    ----------
+    contributor : dict
+        Raw contributor dictionary from YAML.
         
-    Returns:
+    Returns
+    -------
+    dict
         Cleaned contributor dictionary.
     """
     cleaned = {}
@@ -175,10 +189,14 @@ def get_recent_contributors(count: int = 4) -> List[Dict[str, Any]]:
     """
     Get the most recent contributors.
     
-    Args:
-        count: Number of recent contributors to return.
+    Parameters
+    ----------
+    count : int, default 4
+        Number of recent contributors to return.
         
-    Returns:
+    Returns
+    -------
+    list of dict
         List of recent contributor dictionaries, sorted by date_added descending.
     """
     try:
@@ -225,10 +243,14 @@ def generate_github_avatar_url(github_image_id: int) -> str:
     """
     Generate GitHub avatar URL from image ID.
     
-    Args:
-        github_image_id: GitHub user's image ID.
+    Parameters
+    ----------
+    github_image_id : int
+        GitHub user's image ID.
         
-    Returns:
+    Returns
+    -------
+    str
         GitHub avatar URL.
     """
     return f"https://avatars.githubusercontent.com/u/{github_image_id}?s=400&v=4"
@@ -238,10 +260,14 @@ def generate_github_profile_url(github_username: str) -> str:
     """
     Generate GitHub profile URL from username.
     
-    Args:
-        github_username: GitHub username.
+    Parameters
+    ----------
+    github_username : str
+        GitHub username.
         
-    Returns:
+    Returns
+    -------
+    str
         GitHub profile URL.
     """
     return f"https://github.com/{github_username}"
