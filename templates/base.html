@@ -17,11 +17,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    
     {% block extra_head %}{% endblock %}
 </head>
 <body class="h-full bg-gray-50 font-nunito">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-white shadow-lg fixed top-0 left-0 right-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -40,6 +43,8 @@
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">About peer review</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">How to submit a package</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Community partners</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Accepted packages</a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Peer review guide <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
                             </div>
                         </div>
                     </div>
@@ -52,27 +57,140 @@
                             <div class="py-2">
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Packaging resources</a>
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Our packages</a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Package Guidebook <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
                             </div>
                         </div>
                     </div>
                     
-                    <a href="#" class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">Learn</a>
-                    <a href="#" class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">Community</a>
-                    <a href="/blog/" class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">Blog</a>
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">
+                            Learn <i class="fas fa-caret-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Tutorials & Resources</a>
+                                <a href="/blog/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Blog</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Events</a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Ask a question <i class="fa-brands fa-discourse ml-2 text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">
+                            Community <i class="fas fa-caret-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Our Community</a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Connect with us <i class="fa-brands fa-discourse ml-2 text-xs"></i></a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Handbook <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">
+                            Get Involved <i class="fas fa-caret-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Volunteer</a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-pyos-light-purple hover:text-pyos-deep-purple">Donate <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Icon -->
+                    <button class="text-gray-700 hover:text-pyos-deep-purple font-medium py-3 px-4">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
                 </div>
                 
-                <!-- Mobile menu button -->
-                <div class="lg:hidden">
-                    <button type="button" class="text-gray-700 hover:text-gray-900 focus:outline-none">
+                <!-- Mobile menu buttons -->
+                <div class="lg:hidden flex items-center">
+                    <!-- Search Icon -->
+                    <button class="text-gray-700 hover:text-pyos-deep-purple focus:outline-none px-3">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                    <!-- Hamburger Menu -->
+                    <button type="button" id="mobile-menu-button" class="text-gray-700 hover:text-pyos-deep-purple focus:outline-none px-4">
                         <i class="fas fa-bars text-lg"></i>
                     </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200 fixed top-0 left-0 right-0 z-50 h-screen overflow-y-auto pt-16">
+            <div class="px-4 py-2 space-y-1">
+                <!-- Mobile Peer Review Dropdown -->
+                <div class="space-y-1">
+                    <button class="mobile-dropdown-toggle w-full text-left flex items-center justify-between py-2 text-gray-700 hover:text-pyos-deep-purple font-medium">
+                        Peer Review <i class="fas fa-caret-down text-xs"></i>
+                    </button>
+                    <div class="mobile-dropdown-menu hidden pl-4 space-y-1">
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">About peer review</a>
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">How to submit a package</a>
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Community partners</a>
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Accepted packages</a>
+                        <a href="#" class="flex items-center py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Peer review guide <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Python Packaging Dropdown -->
+                <div class="space-y-1">
+                    <button class="mobile-dropdown-toggle w-full text-left flex items-center justify-between py-2 text-gray-700 hover:text-pyos-deep-purple font-medium">
+                        Python Packaging <i class="fas fa-caret-down text-xs"></i>
+                    </button>
+                    <div class="mobile-dropdown-menu hidden pl-4 space-y-1">
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Packaging resources</a>
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Our packages</a>
+                        <a href="#" class="flex items-center py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Package Guidebook <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Learn Dropdown -->
+                <div class="space-y-1">
+                    <button class="mobile-dropdown-toggle w-full text-left flex items-center justify-between py-2 text-gray-700 hover:text-pyos-deep-purple font-medium">
+                        Learn <i class="fas fa-caret-down text-xs"></i>
+                    </button>
+                    <div class="mobile-dropdown-menu hidden pl-4 space-y-1">
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Tutorials & Resources</a>
+                        <a href="/blog/" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Blog</a>
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Events</a>
+                        <a href="#" class="flex items-center py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Ask a question <i class="fa-brands fa-discourse ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Community Dropdown -->
+                <div class="space-y-1">
+                    <button class="mobile-dropdown-toggle w-full text-left flex items-center justify-between py-2 text-gray-700 hover:text-pyos-deep-purple font-medium">
+                        Community <i class="fas fa-caret-down text-xs"></i>
+                    </button>
+                    <div class="mobile-dropdown-menu hidden pl-4 space-y-1">
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Our Community</a>
+                        <a href="#" class="flex items-center py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Connect with us <i class="fa-brands fa-discourse ml-2 text-xs"></i></a>
+                        <a href="#" class="flex items-center py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Handbook <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Mobile Get Involved Dropdown -->
+                <div class="space-y-1">
+                    <button class="mobile-dropdown-toggle w-full text-left flex items-center justify-between py-2 text-gray-700 hover:text-pyos-deep-purple font-medium">
+                        Get Involved <i class="fas fa-caret-down text-xs"></i>
+                    </button>
+                    <div class="mobile-dropdown-menu hidden pl-4 space-y-1">
+                        <a href="#" class="block py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Volunteer</a>
+                        <a href="#" class="flex items-center py-2 text-sm text-gray-600 hover:text-pyos-deep-purple">Donate <i class="fas fa-external-link-alt ml-2 text-xs"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main class="pt-16">
         {% block content %}{% endblock %}
     </main>
 
@@ -119,6 +237,9 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Navigation JavaScript -->
+    <script src="{% static 'js/navigation.js' %}"></script>
     
     {% block extra_js %}{% endblock %}
 </body>
