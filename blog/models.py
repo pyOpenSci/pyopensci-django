@@ -6,7 +6,9 @@ from wagtail.admin.panels import FieldPanel
 
 class BlogIndexPage(Page):
     """
-    Index page for blog posts
+    Index page for blog posts.
+    
+    Wagtail page model for the main blog listing page.
     """
     intro = RichTextField(blank=True)
 
@@ -20,7 +22,9 @@ class BlogIndexPage(Page):
 
 class BlogPage(Page):
     """
-    Individual blog post page
+    Individual blog post page.
+    
+    Wagtail page model for individual blog posts with date, intro, and content.
     """
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)

@@ -119,17 +119,83 @@
         <h2 class="text-3xl font-bold text-center mb-12 text-pyos-deep-purple font-poppins">New pyOpenSci contributors</h2>
         
         <div class="grid md:grid-cols-4 gap-6">
-            <!-- Placeholder contributor cards -->
-            {% for i in "1234" %}
+            {% for contributor in recent_contributors %}
             <div class="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-shadow duration-300">
-                <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4"></div>
-                <h4 class="font-semibold text-pyos-deep-purple mb-2">Contributor {{ forloop.counter }}</h4>
-                <p class="text-sm text-gray-600">Organization</p>
+                {% if contributor.github_avatar_url %}
+                    <img src="{{ contributor.github_avatar_url }}" 
+                         alt="GitHub photo of {{ contributor.display_name }}"
+                         class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                {% else %}
+                    <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fab fa-github text-2xl text-gray-600"></i>
+                    </div>
+                {% endif %}
+                
+                <h4 class="font-semibold text-pyos-deep-purple mb-2">
+                    {{ contributor.display_name }}
+                </h4>
+                
+                {% if contributor.organization %}
+                    <p class="text-sm text-gray-600 mb-2">{{ contributor.organization }}</p>
+                {% endif %}
+                
+                {% if contributor.title %}
+                    <p class="text-xs text-gray-500 mb-3">
+                        {% for title in contributor.title %}
+                            {{ title }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+                
                 <div class="flex justify-center space-x-2 mt-3">
-                    <a href="#" class="text-gray-400 hover:text-pyos-deep-purple">
+                    <a href="{{ contributor.github_profile_url }}" 
+                       target="_blank"
+                       class="text-gray-400 hover:text-pyos-deep-purple transition-colors"
+                       title="View {{ contributor.display_name }}'s GitHub profile">
                         <i class="fab fa-github"></i>
                     </a>
+                    
+                    {% if contributor.twitter %}
+                        <a href="https://twitter.com/{{ contributor.twitter }}" 
+                           target="_blank"
+                           class="text-gray-400 hover:text-pyos-deep-purple transition-colors"
+                           title="View {{ contributor.display_name }}'s Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    {% endif %}
+                    
+                    {% if contributor.website %}
+                        <a href="{{ contributor.website }}" 
+                           target="_blank"
+                           class="text-gray-400 hover:text-pyos-deep-purple transition-colors"
+                           title="Visit {{ contributor.display_name }}'s website">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                    {% endif %}
+                    
+                    {% if contributor.orcidid %}
+                        <a href="https://orcid.org/{{ contributor.orcidid }}" 
+                           target="_blank"
+                           class="text-gray-400 hover:text-pyos-deep-purple transition-colors"
+                           title="View {{ contributor.display_name }}'s ORCID">
+                            <i class="fab fa-orcid"></i>
+                        </a>
+                    {% endif %}
+                    
+                    {% if contributor.mastodon %}
+                        <a href="{{ contributor.mastodon }}" 
+                           target="_blank"
+                           class="text-gray-400 hover:text-pyos-deep-purple transition-colors"
+                           title="View {{ contributor.display_name }}'s Mastodon">
+                            <i class="fab fa-mastodon"></i>
+                        </a>
+                    {% endif %}
                 </div>
+            </div>
+            {% empty %}
+            <!-- Fallback if no contributors are available -->
+            <div class="col-span-4 text-center text-gray-500 py-8">
+                <p>Unable to load contributor data at this time. Please try again later.</p>
             </div>
             {% endfor %}
         </div>
