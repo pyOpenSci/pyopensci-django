@@ -5,7 +5,7 @@ This module provides functions to fetch and parse contributor data from YAML fil
 following the same format used by the Jekyll site and pyosMeta package.
 """
 
-import yaml
+from ruamel.yaml import YAML, YAMLError
 import logging
 from datetime import datetime
 from typing import List, Dict, Any, Optional
@@ -13,6 +13,9 @@ from urllib.request import urlopen
 from urllib.error import URLError
 
 logger = logging.getLogger(__name__)
+
+# Initialize YAML parser with safe loading
+yaml = YAML(typ='safe')
 
 
 class ContributorDataError(Exception):
@@ -45,7 +48,7 @@ def fetch_contributors_yaml(url: str = None) -> List[Dict[str, Any]]:
     try:
         with urlopen(url) as response:
             yaml_content = response.read().decode('utf-8')
-            contributors = yaml.safe_load(yaml_content)
+            contributors = yaml.load(yaml_content)
             
         if not isinstance(contributors, list):
             raise ContributorDataError("YAML data should be a list of contributors")
@@ -56,7 +59,7 @@ def fetch_contributors_yaml(url: str = None) -> List[Dict[str, Any]]:
     except URLError as e:
         logger.error(f"Failed to fetch contributors from {url}: {e}")
         raise ContributorDataError(f"Network error: {e}")
-    except yaml.YAMLError as e:
+    except YAMLError as e:
         logger.error(f"Failed to parse YAML: {e}")
         raise ContributorDataError(f"YAML parsing error: {e}")
     except Exception as e:
