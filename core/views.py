@@ -45,6 +45,7 @@ def home(request):
         'page_title': 'Welcome to pyOpenSci',
         'hero_title': 'We make it easier for scientists to create, find, maintain, and contribute to reusable code and software.',
         'hero_subtitle': 'pyOpenSci broadens participation in scientific open source by breaking down social and technical barriers. Join our global community.',
+        # Used for the "New pyOpenSci contributors" section on the home page
         'recent_contributors': recent_contributors,
     }
     return render(request, 'core/home.html', context)
