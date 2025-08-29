@@ -237,25 +237,35 @@
         <h2 class="text-3xl font-bold text-center mb-12 text-pyos-deep-purple font-poppins">Recently Accepted Python Packages</h2>
         
         <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <!-- Placeholder package cards -->
-            {% for i in "123" %}
+            {% for package in recent_packages %}
             <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                <h3 class="text-xl font-bold mb-2 text-pyos-deep-purple">package-name-{{ forloop.counter }}</h3>
+                <h3 class="text-xl font-bold mb-2 text-pyos-deep-purple">{{ package.package_name }}</h3>
                 <p class="text-sm text-gray-600 mb-3">
-                    <i class="fas fa-feather mr-1"></i> Author Name
+                    <i class="fas fa-feather mr-1"></i> {{ package.submitting_author.name|default:package.submitting_author.github_username }}
                 </p>
-                <p class="text-gray-700 mb-4 text-sm">Package description explaining what this Python package does and how it helps scientists...</p>
+                <p class="text-gray-700 mb-4 text-sm">{{ package.package_description|truncatewords:20 }}</p>
                 <div class="space-y-2 text-sm">
-                    <a href="#" class="flex items-center text-pyos-deep-purple hover:underline">
-                        <i class="fab fa-github mr-2"></i> View Code
-                    </a>
-                    <a href="#" class="flex items-center text-pyos-deep-purple hover:underline">
-                        <i class="fas fa-book-open mr-2"></i> View Docs
-                    </a>
-                    <a href="#" class="flex items-center text-pyos-deep-purple hover:underline">
-                        <i class="fa-solid fa-user-pen mr-2"></i> View Review
-                    </a>
+                    {% if package.repository_link %}
+                        <a href="{{ package.repository_link }}" target="_blank" class="flex items-center text-pyos-deep-purple hover:underline">
+                            <i class="fab fa-github mr-2"></i> View Code
+                        </a>
+                    {% endif %}
+                    {% if package.gh_meta.documentation %}
+                        <a href="{{ package.gh_meta.documentation }}" target="_blank" class="flex items-center text-pyos-deep-purple hover:underline">
+                            <i class="fas fa-book-open mr-2"></i> View Docs
+                        </a>
+                    {% endif %}
+                    {% if package.issue_link %}
+                        <a href="{{ package.issue_link }}" target="_blank" class="flex items-center text-pyos-deep-purple hover:underline">
+                            <i class="fa-solid fa-user-pen mr-2"></i> View Review
+                        </a>
+                    {% endif %}
                 </div>
+            </div>
+            {% empty %}
+            <!-- Fallback if no packages are available -->
+            <div class="col-span-3 text-center text-gray-500 py-8">
+                <p>Unable to load package data at this time. Please try again later.</p>
             </div>
             {% endfor %}
         </div>
