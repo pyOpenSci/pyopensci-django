@@ -65,6 +65,23 @@ uv run python manage.py runserver
 - **Wagtail Admin**: [http://127.0.0.1:8000/cms/](http://127.0.0.1:8000/cms/)
 - **Django Admin**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
 
+## Running Tests
+
+```bash
+# Run all tests
+uv run python manage.py test
+
+# Run tests with verbose output (shows each test name)
+uv run python manage.py test -v 2
+
+# Run tests with coverage
+uv run coverage run --source='.' manage.py test
+uv run coverage report
+
+# Generate HTML coverage report
+uv run coverage html
+```
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -86,4 +103,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
