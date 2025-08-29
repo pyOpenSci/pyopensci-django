@@ -7,4 +7,5 @@ dependencies = [
     "Django>=5.1.6",
     "wagtail>=7.1",
     "ruamel.yaml>=0.18.0",
+    "coverage>=7.10.0",
 ]
