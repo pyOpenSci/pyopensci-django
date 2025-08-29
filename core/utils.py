@@ -1,7 +1,7 @@
 """
-Utility functions for working with contributor data.
+Utility functions for working with contributor and package data.
 
-This module provides functions to fetch and parse contributor data from YAML files,
+This module provides functions to fetch and parse contributor and package data from YAML files,
 following the same format used by the Jekyll site and pyosMeta package.
 """
 
@@ -19,6 +19,11 @@ yaml = YAML(typ='safe')
 
 class ContributorDataError(Exception):
     """Custom exception for contributor data related errors."""
+    pass
+
+
+class PackageDataError(Exception):
+    """Custom exception for package data related errors."""
     pass
 
 
@@ -97,6 +102,76 @@ def get_recent_contributors(count: int = 4) -> List[Dict[str, Any]]:
         return []
 
 
+def fetch_packages_yaml(url=None):
+    """
+    Fetch package data from YAML source.
+    
+    Parameters
+    ----------
+    url : str, optional
+        URL to fetch YAML from. If None, uses the default pyOpenSci GitHub URL.
+        
+    Returns
+    -------
+    list of dict
+        List of package dictionaries.
+        
+    Raises
+    ------
+    ContributorDataError
+        If data cannot be fetched or parsed.
+    """
+    if url is None:
+        url = "https://raw.githubusercontent.com/pyOpenSci/pyopensci.github.io/main/_data/packages.yml"
+    
+    try:
+        with urlopen(url) as response:
+            yaml_content = response.read().decode('utf-8')
+            packages = yaml.load(yaml_content)
+            
+        if not isinstance(packages, list):
+            raise ContributorDataError("YAML data should be a list of packages")
+            
+        logger.info(f"Successfully fetched {len(packages)} packages from {url}")
+        return packages
+        
+    except URLError as e:
+        logger.error(f"Failed to fetch packages from {url}: {e}")
+        raise ContributorDataError(f"Network error: {e}")
+    except YAMLError as e:
+        logger.error(f"Failed to parse YAML: {e}")
+        raise ContributorDataError(f"YAML parsing error: {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error fetching packages: {e}")
+        raise ContributorDataError(f"Unexpected error: {e}")
+
+
+def get_recent_packages(count=3):
+    """
+    Get the most recently accepted packages.
+    
+    Parameters
+    ----------
+    count : int, default 3
+        Number of recent packages to return.
+        
+    Returns
+    -------
+    list of dict
+        List of recent package dictionaries, sorted by date_accepted descending.
+    """
+    try:
+        packages = fetch_packages_yaml()
+        return packages[:count]
+        
+    except ContributorDataError as e:
+        logger.error(f"Failed to get recent packages: {e}")
+        return []
+    except Exception as e:
+        logger.error(f"Unexpected error getting recent packages: {e}")
+        return []
+
+
 def generate_github_avatar_url(github_image_id: int) -> str:
     """
     Generate GitHub avatar URL from image ID.
@@ -129,3 +204,5 @@ def generate_github_profile_url(github_username: str) -> str:
         GitHub profile URL.
     """
     return f"https://github.com/{github_username}"
+
+
