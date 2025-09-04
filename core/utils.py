@@ -10,6 +10,7 @@ import logging
 from typing import List, Dict, Any
 from urllib.request import urlopen
 from urllib.error import URLError
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -162,7 +163,11 @@ def get_recent_packages(count=3):
     """
     try:
         packages = fetch_packages_yaml()
-        return packages[:count]
+        
+        # Sort packages by date_accepted descending (most recent first)
+        sorted_packages = sorted(packages, key=lambda x: x.get('date_accepted', ''), reverse=True)
+        
+        return sorted_packages[:count]
         
     except ContributorDataError as e:
         logger.error(f"Failed to get recent packages: {e}")

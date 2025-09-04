@@ -241,7 +241,20 @@
             <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 class="text-xl font-bold mb-2 text-pyos-deep-purple">{{ package.package_name }}</h3>
                 <p class="text-sm text-gray-600 mb-3">
-                    <i class="fas fa-feather mr-1"></i> {{ package.submitting_author.name|default:package.submitting_author.github_username }}
+                    <i class="fas fa-feather mr-1"></i>
+                    {% if package.all_current_maintainers %}
+                        {% for maintainer in package.all_current_maintainers %}
+                            {% if maintainer.name %}
+                                {{ maintainer.name }}{% if not forloop.last %}, {% endif %}
+                            {% else %}
+                                {{ maintainer.github_username }}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elif package.submitting_author.name != 'Name' %}
+                        {{ package.submitting_author.name }}
+                    {% else %}
+                        {{ package.submitting_author.github_username }}
+                    {% endif %}
                 </p>
                 <p class="text-gray-700 mb-4 text-sm">{{ package.package_description|truncatewords:20 }}</p>
                 <div class="space-y-2 text-sm">
