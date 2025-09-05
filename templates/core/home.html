@@ -124,16 +124,16 @@
                 {% if contributor.github_avatar_url %}
                     <img src="{{ contributor.github_avatar_url }}" 
                          alt="GitHub photo of {{ contributor.display_name }}"
-                         class="w-20 h-20 rounded-full mx-auto mb-4 object-cover">
+                         class="w-50 h-50 rounded-full mx-auto mb-4 object-cover">
                 {% else %}
-                    <div class="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <div class="w-50 h-50 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
                         <i class="fab fa-github text-2xl text-gray-600"></i>
                     </div>
                 {% endif %}
                 
-                <h4 class="font-semibold text-pyos-deep-purple mb-2">
+                <p class="text-2xl font-semibold text-pyos-deep-purple mb-2">
                     {{ contributor.display_name }}
-                </h4>
+                </p>
                 
                 {% if contributor.organization %}
                     <p class="text-sm text-gray-600 mb-2">{{ contributor.organization }}</p>
