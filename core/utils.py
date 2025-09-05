@@ -131,20 +131,20 @@ def fetch_packages_yaml(url=None):
             packages = yaml.load(yaml_content)
             
         if not isinstance(packages, list):
-            raise ContributorDataError("YAML data should be a list of packages")
+            raise PackageDataError("YAML data should be a list of packages")
             
         logger.info(f"Successfully fetched {len(packages)} packages from {url}")
         return packages
         
     except URLError as e:
         logger.error(f"Failed to fetch packages from {url}: {e}")
-        raise ContributorDataError(f"Network error: {e}")
+        raise PackageDataError(f"Network error: {e}")
     except YAMLError as e:
         logger.error(f"Failed to parse YAML: {e}")
-        raise ContributorDataError(f"YAML parsing error: {e}")
+        raise PackageDataError(f"YAML parsing error: {e}")
     except Exception as e:
         logger.error(f"Unexpected error fetching packages: {e}")
-        raise ContributorDataError(f"Unexpected error: {e}")
+        raise PackageDataError(f"Unexpected error: {e}")
 
 
 def get_recent_packages(count=3):
@@ -169,7 +169,7 @@ def get_recent_packages(count=3):
         
         return sorted_packages[:count]
         
-    except ContributorDataError as e:
+    except PackageDataError as e:
         logger.error(f"Failed to get recent packages: {e}")
         return []
     except Exception as e:
