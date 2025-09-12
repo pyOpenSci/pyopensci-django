@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }} - pyOpenSci Blog{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ page.excerpt|default:page.search_description }}">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.excerpt|default:page.search_description }}">
+<meta property="og:type" content="article">
+{% if page.header_image %}
+<meta property="og:image" content="{% image page.header_image original url %}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Header Image -->
+{% if page.header_image %}
+<div class="relative bg-gradient-to-r from-pyos-deep-purple to-pyos-purple h-64 md:h-80">
+    <div class="absolute inset-0">
+        {% image page.header_image fill-1200x320 as header_img %}
+        <img src="{{ header_img.url }}" alt="{{ page.header_image_alt|default:page.title }}" class="w-full h-full object-cover opacity-30">
+    </div>
+    <div class="relative z-10 flex items-center justify-center h-full">
+        <div class="text-center text-white px-4">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-poppins">{{ page.title }}</h1>
+            {% if page.excerpt %}
+            <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">{{ page.excerpt }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Main Content -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex flex-wrap -mx-4">
+        <!-- Article Content -->
+        <article class="w-full {% if page.show_toc %}lg:w-3/4{% endif %} px-4">
+            <!-- Header (if no hero image) -->
+            {% if not page.header_image %}
+            <header class="mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-poppins">{{ page.title }}</h1>
+                {% if page.excerpt %}
+                <p class="text-xl text-gray-600 mb-6">{{ page.excerpt }}</p>
+                {% endif %}
+            </header>
+            {% endif %}
+            
+            <!-- Article Meta -->
+            <div class="flex flex-wrap items-center text-sm text-gray-600 mb-8 pb-6 border-b border-gray-200">
+                {% if page.author %}
+                <div class="flex items-center mr-6 mb-2">
+                    {% if page.author.avatar %}
+                        {% image page.author.avatar fill-40x40 as author_avatar %}
+                        <img src="{{ author_avatar.url }}" alt="{{ page.author.name }}" class="w-8 h-8 rounded-full mr-2">
+                    {% else %}
+                        <div class="w-8 h-8 bg-pyos-purple rounded-full flex items-center justify-center mr-2">
+                            <span class="text-white text-sm font-semibold">{{ page.author.name|first }}</span>
+                        </div>
+                    {% endif %}
+                    <span>by <strong>{{ page.author.name }}</strong></span>
+                </div>
+                {% endif %}
+                
+                <div class="flex items-center mr-6 mb-2">
+                    <i class="far fa-calendar-alt mr-2 text-pyos-purple"></i>
+                    <time datetime="{{ page.date|date:'c' }}">{{ page.date|date:"F j, Y" }}</time>
+                </div>
+                
+                {% if page.last_modified %}
+                <div class="flex items-center mr-6 mb-2">
+                    <i class="far fa-clock mr-2 text-pyos-purple"></i>
+                    <span>Updated {{ page.last_modified|date:"F j, Y" }}</span>
+                </div>
+                {% endif %}
+                
+                <!-- Tags -->
+                {% if page.tags.all %}
+                <div class="flex flex-wrap items-center">
+                    {% for tag in page.tags.all %}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pyos-light-purple text-pyos-deep-purple mr-2 mb-2">
+                        {{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Article Body -->
+            <div class="prose prose-lg max-w-none">
+                <div class="rich-text">
+                    {{ page.body|richtext }}
+                </div>
+            </div>
+            
+            <!-- Author Bio (if available) -->
+            {% if page.author and page.author.bio %}
+            <div class="mt-12 p-6 bg-gray-50 rounded-lg border">
+                <div class="flex items-start">
+                    {% if page.author.avatar %}
+                        {% image page.author.avatar fill-80x80 as author_bio_avatar %}
+                        <img src="{{ author_bio_avatar.url }}" alt="{{ page.author.name }}" class="w-16 h-16 rounded-full mr-4 flex-shrink-0">
+                    {% else %}
+                        <div class="w-16 h-16 bg-pyos-purple rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white text-xl font-semibold">{{ page.author.name|first }}</span>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h3 class="font-semibold text-lg mb-2">About {{ page.author.name }}</h3>
+                        <p class="text-gray-700 mb-4">{{ page.author.bio }}</p>
+                        
+                        <!-- Author Social Links -->
+                        <div class="flex flex-wrap space-x-4 text-sm">
+                            {% if page.author.website %}
+                            <a href="{{ page.author.website }}" class="text-pyos-purple hover:text-pyos-deep-purple" target="_blank" rel="noopener">
+                                <i class="fas fa-globe mr-1"></i> Website
+                            </a>
+                            {% endif %}
+                            {% if page.author.github %}
+                            <a href="https://github.com/{{ page.author.github }}" class="text-pyos-purple hover:text-pyos-deep-purple" target="_blank" rel="noopener">
+                                <i class="fab fa-github mr-1"></i> GitHub
+                            </a>
+                            {% endif %}
+                            {% if page.author.linkedin %}
+                            <a href="{{ page.author.linkedin }}" class="text-pyos-purple hover:text-pyos-deep-purple" target="_blank" rel="noopener">
+                                <i class="fab fa-linkedin mr-1"></i> LinkedIn
+                            </a>
+                            {% endif %}
+                            {% if page.author.mastodon %}
+                            <a href="{{ page.author.mastodon }}" class="text-pyos-purple hover:text-pyos-deep-purple" target="_blank" rel="noopener">
+                                <i class="fab fa-mastodon mr-1"></i> Mastodon
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </article>
+        
+        <!-- Table of Contents Sidebar -->
+        {% if page.show_toc %}
+        <aside class="w-full lg:w-1/4 px-4 mt-8 lg:mt-0">
+            <div class="sticky top-20">
+                <div class="bg-white p-6 rounded-lg border shadow-sm">
+                    <h4 class="font-semibold text-lg mb-4 flex items-center">
+                        <i class="fas fa-list mr-2 text-pyos-purple"></i>
+                        On this page
+                    </h4>
+                    <nav class="toc text-sm">
+                        <!-- TOC will be generated by JavaScript or server-side -->
+                        <div id="toc-content" class="space-y-2">
+                            <!-- JavaScript will populate this -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Comments Section -->
+{% if page.enable_comments %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-gray-50 p-8 rounded-lg">
+        <h3 class="text-xl font-semibold mb-4">Comments</h3>
+        <p class="text-gray-600">Comments system can be integrated here (Disqus, etc.)</p>
+    </div>
+</div>
+{% endif %}
+
+<!-- Related Posts -->
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-center mb-12">You may also enjoy</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Related posts would be populated here -->
+            <p class="col-span-full text-center text-gray-600">Related posts functionality to be implemented</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if page.show_toc %}
+<script>
+// Simple TOC generator
+document.addEventListener('DOMContentLoaded', function() {
+    const headings = document.querySelectorAll('.rich-text h1, .rich-text h2, .rich-text h3, .rich-text h4, .rich-text h5, .rich-text h6');
+    const tocContent = document.getElementById('toc-content');
+    
+    if (headings.length > 0 && tocContent) {
+        headings.forEach((heading, index) => {
+            // Add ID to heading if it doesn't have one
+            if (!heading.id) {
+                heading.id = 'heading-' + index;
+            }
+            
+            // Create TOC link
+            const link = document.createElement('a');
+            link.href = '#' + heading.id;
+            link.className = 'block py-1 text-gray-600 hover:text-pyos-purple transition-colors';
+            link.textContent = heading.textContent;
+            
+            // Add indentation based on heading level
+            const level = parseInt(heading.tagName.substring(1));
+            link.style.paddingLeft = (level - 1) * 16 + 'px';
+            
+            tocContent.appendChild(link);
+        });
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "blog/blog_page.html" %}
+
+{% block content %}
+<!-- Override just the meta section to show event-specific info -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex flex-wrap -mx-4">
+        <article class="w-full {% if page.show_toc %}lg:w-3/4{% endif %} px-4">
+            <header class="mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-poppins">{{ page.title }}</h1>
+                {% if page.excerpt %}
+                <p class="text-xl text-gray-600 mb-6">{{ page.excerpt }}</p>
+                {% endif %}
+            </header>
+            
+            <!-- Event Meta (different from blog post) -->
+            <div class="bg-blue-50 p-6 rounded-lg mb-8">
+                <h3 class="text-lg font-semibold mb-4">Event Details</h3>
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+                    <div class="flex items-center">
+                        <i class="far fa-calendar-alt mr-2 text-blue-600"></i>
+                        <span><strong>Event Date:</strong> {{ page.start_date|date:"F j, Y" }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-600"></i>
+                        <span><strong>Location:</strong> {{ page.location }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-tag mr-2 text-blue-600"></i>
+                        <span><strong>Type:</strong> {{ page.event_type|title }}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="far fa-clock mr-2 text-blue-600"></i>
+                        <span><strong>Published:</strong> {{ page.date|date:"F j, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Article Body -->
+            <div class="prose prose-lg max-w-none">
+                {{ page.body|richtext }}
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}
