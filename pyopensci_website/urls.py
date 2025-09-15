@@ -28,8 +28,13 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    path("", include("core.urls")),  # Django homepage
-    path("blog/", include(wagtail_urls)),  # Wagtail blog
+
+    # Optional Django views for non-Wagtail content
+    path("", include("core.urls")),
+
+    # For anything not caught by more specific rules above, hand over to
+    # Wagtail's serving mechanism. This should be last.
+    path("", include(wagtail_urls)),
 ]
 
 # Serve media files during development
