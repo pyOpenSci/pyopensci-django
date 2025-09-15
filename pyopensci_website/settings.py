@@ -155,3 +155,15 @@ WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 # Media files
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
+
+# Static root for production
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Maximum form fields (recommended for complex Wagtail pages)
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
+
+# Wagtail document extensions
+WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+# Case insensitive tags
+TAGGIT_CASE_INSENSITIVE = True

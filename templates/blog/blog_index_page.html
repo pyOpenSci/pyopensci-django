@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }} - pyOpenSci{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-purple-600 to-blue-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl font-bold text-white mb-6">pyOpenSci Blog</h1>
+        {% if page.intro %}
+        <div class="text-xl text-white opacity-90 max-w-3xl mx-auto">
+            {{ page.intro|richtext }}
+        </div>
+        {% else %}
+        <p class="text-xl text-white opacity-90 max-w-3xl mx-auto">
+            Here we will both post updates about pyOpenSci and also highlight contributors. We will also highlight new packages that have been reviewed and accepted into the pyOpenSci ecosystem.
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Blog Posts -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Recent pyOpenSci blog posts</h2>
+        <!-- Year filter buttons placeholder -->
+        <div class="text-gray-600 mb-8">
+            <p class="text-sm">Year filtering will be added later</p>
+        </div>
+    </div>
+
+    {% if blog_posts %}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for post in blog_posts %}
+        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+            <!-- Post Image -->
+            {% if post.header_image %}
+            <div class="h-48 bg-gray-200">
+                {% image post.header_image fill-400x192 as post_image %}
+                <img src="{{ post_image.url }}" alt="{{ post.header_image_alt|default:post.title }}" class="w-full h-full object-cover">
+            </div>
+            {% endif %}
+
+            <!-- Post Content -->
+            <div class="p-6">
+                <!-- Meta -->
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                    <time>{{ post.date|date:"M j, Y" }}</time>
+                    {% if post.author %}
+                    <span class="mx-2">•</span>
+                    <span>{{ post.author.name }}</span>
+                    {% endif %}
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-xl font-semibold text-gray-900 mb-3">
+                    <a href="{% pageurl post %}" class="hover:text-blue-600 transition-colors">
+                        {{ post.title }}
+                    </a>
+                </h2>
+
+                <!-- Excerpt -->
+                {% if post.excerpt %}
+                <p class="text-gray-600 mb-4">{{ post.excerpt|truncatewords:20 }}</p>
+                {% endif %}
+
+                <!-- Tags -->
+                {% if post.tags.all %}
+                <div class="flex flex-wrap gap-1 mb-4">
+                    {% for tag in post.tags.all|slice:":3" %}
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                        {{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Read More -->
+                <a href="{% pageurl post %}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                    Read more →
+                </a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-16">
+        <div class="max-w-md mx-auto">
+            <i class="fas fa-blog text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">No blog posts yet</h2>
+            <p class="text-gray-600">Check back soon for the latest updates and insights from the pyOpenSci community.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

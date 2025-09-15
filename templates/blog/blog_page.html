@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }} - pyOpenSci Blog{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Header -->
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ page.title }}</h1>
+
+        <!-- Meta information -->
+        <div class="flex flex-wrap items-center text-sm text-gray-600 mb-4 space-x-4">
+            <div>
+                <i class="far fa-calendar-alt mr-1"></i>
+                {{ page.date|date:"F j, Y" }}
+            </div>
+
+            {% if page.author %}
+            <div>
+                <i class="fas fa-user mr-1"></i>
+                {{ page.author.name }}
+            </div>
+            {% endif %}
+
+            {% if page.last_modified %}
+            <div>
+                <i class="far fa-clock mr-1"></i>
+                Updated {{ page.last_modified|date:"F j, Y" }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Excerpt -->
+        {% if page.excerpt %}
+        <p class="text-lg text-gray-700 mb-6">{{ page.excerpt }}</p>
+        {% endif %}
+
+        <!-- Tags -->
+        {% if page.tags.all %}
+        <div class="flex flex-wrap gap-2 mb-6">
+            {% for tag in page.tags.all %}
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                {{ tag.name }}
+            </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </header>
+
+    <!-- Header Image -->
+    {% if page.header_image %}
+    <div class="mb-8">
+        {% image page.header_image original as header_img %}
+        <img src="{{ header_img.url }}" alt="{{ page.header_image_alt|default:page.title }}" class="w-full rounded-lg">
+    </div>
+    {% endif %}
+
+    <!-- Content -->
+    <article class="prose prose-lg max-w-none">
+        {{ page.body|richtext }}
+    </article>
+
+    <!-- Author Bio -->
+    {% if page.author and page.author.bio %}
+    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-2">About {{ page.author.name }}</h3>
+        <p class="text-gray-700 mb-4">{{ page.author.bio }}</p>
+
+        <!-- Author Links -->
+        <div class="flex flex-wrap gap-4 text-sm">
+            {% if page.author.website %}
+            <a href="{{ page.author.website }}" class="text-blue-600 hover:text-blue-800" target="_blank">
+                <i class="fas fa-globe mr-1"></i> Website
+            </a>
+            {% endif %}
+            {% if page.author.github %}
+            <a href="https://github.com/{{ page.author.github }}" class="text-blue-600 hover:text-blue-800" target="_blank">
+                <i class="fab fa-github mr-1"></i> GitHub
+            </a>
+            {% endif %}
+            {% if page.author.linkedin %}
+            <a href="{{ page.author.linkedin }}" class="text-blue-600 hover:text-blue-800" target="_blank">
+                <i class="fab fa-linkedin mr-1"></i> LinkedIn
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Comments placeholder -->
+    {% if page.enable_comments %}
+    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-4">Comments</h3>
+        <p class="text-gray-600">Comments system integration placeholder</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
