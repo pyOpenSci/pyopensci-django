@@ -3,6 +3,7 @@ from django.urls import reverse
 from unittest.mock import patch, MagicMock
 from urllib.error import URLError
 from ruamel.yaml import YAMLError
+import logging
 
 from .utils import (
     fetch_contributors_yaml,
@@ -14,6 +15,9 @@ from .utils import (
     get_recent_packages,
     PackageDataError
 )
+
+# Disable logging during tests for cleaner output
+logging.disable(logging.CRITICAL)
 
 
 class ContributorYAMLParsingTests(TestCase):
