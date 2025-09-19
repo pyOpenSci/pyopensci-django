@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} - pyOpenSci{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-green-600 to-blue-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl font-bold text-white mb-6">{{ hero_title }}</h1>
+        <p class="text-xl text-white opacity-90 max-w-3xl mx-auto">
+            {{ hero_subtitle }}
+        </p>
+    </div>
+</div>
+
+<!-- Events -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">pyOpenSci Events</h2>
+        <p class="text-gray-600 mb-8">Workshops, webinars, and community gatherings</p>
+    </div>
+
+    {% if events %}
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for event in events %}
+        <article class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+            <!-- Event Image -->
+            {% if event.header_image %}
+            <div class="h-48 bg-gray-200">
+                <img src="{{ event.header_image.url }}" alt="{{ event.header_image_alt|default:event.title }}" class="w-full h-full object-cover">
+            </div>
+            {% endif %}
+
+            <!-- Event Content -->
+            <div class="p-6">
+                <!-- Event Type Badge -->
+                <div class="flex justify-between items-start mb-3">
+                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium uppercase">
+                        {{ event.get_event_type_display }}
+                    </span>
+                    {% if event.start_date >= today %}
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Upcoming</span>
+                    {% else %}
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Past</span>
+                    {% endif %}
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-xl font-semibold text-gray-900 mb-3">
+                    <a href="/events/{{ event.slug }}/" class="hover:text-blue-600 transition-colors">
+                        {{ event.title }}
+                    </a>
+                </h2>
+
+                <!-- Event Details -->
+                <div class="space-y-2 text-sm text-gray-600 mb-4">
+                    <div class="flex items-center">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        {{ event.start_date|date:"F j, Y" }}
+                        {% if event.end_date and event.end_date != event.start_date %}
+                        - {{ event.end_date|date:"F j, Y" }}
+                        {% endif %}
+                    </div>
+                    {% if event.location %}
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        {{ event.location }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Excerpt -->
+                {% if event.excerpt %}
+                <p class="text-gray-600 mb-4">{{ event.excerpt|truncatewords:15 }}</p>
+                {% endif %}
+
+                <!-- Tags -->
+                {% if event.tags.all %}
+                <div class="flex flex-wrap gap-1 mb-4">
+                    {% for tag in event.tags.all|slice:":3" %}
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                        {{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Learn More -->
+                <a href="/events/{{ event.slug }}/" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                    Learn more →
+                </a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-16">
+        <div class="max-w-md mx-auto">
+            <i class="fas fa-calendar-alt text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">No events scheduled</h2>
+            <p class="text-gray-600">Check back soon for upcoming workshops, webinars, and community events.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
