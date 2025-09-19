@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 
     # Project apps
     "core",
-    "blog",
+    "publications",
 ]
 
 MIDDLEWARE = [

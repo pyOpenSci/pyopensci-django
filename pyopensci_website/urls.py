@@ -29,7 +29,7 @@ urlpatterns = [
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
 
-    # Optional Django views for non-Wagtail content
+    # Django views for core functionality (includes prefixed Wagtail content)
     path("", include("core.urls")),
 
     # For anything not caught by more specific rules above, hand over to
