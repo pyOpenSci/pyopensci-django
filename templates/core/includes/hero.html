@@ -1,0 +1,18 @@
+{% load static %}
+<section class="relative text-white overflow-hidden" style="background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('{% static "images/headers/pyopensci-sprints.png" %}'); background-size: cover; background-position: center;">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 font-poppins">{{ meta.title }}</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto font-nunito">{{ meta.subtitle }}</p>
+            {% if meta.buttons %}
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                {% for button in meta.buttons %}
+                    <a href="{{ button.url }}" class="bg-transparent border-2 border-white hover:bg-white hover:text-pyos-deep-purple text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300" target="_blank" rel="noopener">
+                        {{ button.label }}
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>

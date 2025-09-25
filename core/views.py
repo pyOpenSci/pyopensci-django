@@ -1,5 +1,10 @@
+import os
 from django.shortcuts import render, get_object_or_404
+from django.conf import settings
+
 import logging
+import markdown
+import frontmatter
 
 from .utils import (
     get_recent_contributors,
@@ -11,6 +16,17 @@ from publications.models import BlogPage, EventPage
 
 logger = logging.getLogger(__name__)
 
+
+def home_markdown(request):
+    md_path = os.path.join(settings.BASE_DIR, 'content', 'home.md')
+    with open(md_path, 'r') as f:
+        post = frontmatter.load(f)
+    html_content = markdown.markdown(post.content)
+    context = {
+        'markdown_content': html_content,
+        'meta': post.metadata,
+    }
+    return render(request, 'core/home.html', context)
 
 def home(request):
     """
