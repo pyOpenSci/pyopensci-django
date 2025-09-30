@@ -96,8 +96,7 @@
     <!-- Header Image -->
     {% if page.header_image %}
     <div class="mb-8">
-        {% image page.header_image original as header_img %}
-        <img src="{{ header_img.url }}" alt="{{ page.header_image_alt|default:page.title }}" class="w-full rounded-lg">
+        <img src="{{ page.header_image.url }}" alt="{{ page.header_image_alt|default:page.title }}" class="w-full rounded-lg">
     </div>
     {% endif %}
 

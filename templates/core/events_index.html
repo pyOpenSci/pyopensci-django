@@ -1,24 +1,107 @@
 {% extends "base.html" %}
+{% load static wagtailimages_tags %}
 
 {% block title %}{{ page_title }} - pyOpenSci{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="bg-gradient-to-r from-green-600 to-blue-600 py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl font-bold text-white mb-6">{{ hero_title }}</h1>
-        <p class="text-xl text-white opacity-90 max-w-3xl mx-auto">
-            {{ hero_subtitle }}
-        </p>
+<!-- Hero Section with Header Image -->
+<section class="relative text-white overflow-hidden" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{% static "images/headers/pyopensci-learn-header.png" %}'); background-size: cover; background-position: center;">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold mb-6">{{ hero_title }}</h1>
+            <p class="text-xl opacity-90 max-w-3xl mx-auto">
+                {{ hero_subtitle }}
+            </p>
+        </div>
     </div>
+</section>
+
+<!-- Intro Text -->
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+    <p class="text-lg text-gray-700">
+        pyOpenSci runs free and paid training events that teach skills that scientists need
+        to make their science more open and collaborative.
+    </p>
 </div>
 
-<!-- Events -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<!-- Upcoming Events Section -->
+{% if upcoming_events %}
+<div class="py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Upcoming Events</h2>
+
+        <div class="flex flex-col gap-8">
+            {% for event in upcoming_events %}
+            <article class="flex border-2 border-gray-300 rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 min-h-[240px]">
+                <a href="/events/{{ event.slug }}/" class="flex w-full">
+                    <!-- Date Section (Purple sidebar - 1/3 width) -->
+                    {% if event.header_image %}
+                    <div class="relative w-1/3 flex items-center justify-center p-8 bg-cover bg-center" style="background: linear-gradient(rgba(51, 32, 92, 0.90), rgba(51, 32, 92, 0.90)), url('{{ event.header_image.url }}'); background-size: cover; background-position: center;">
+                    {% else %}
+                    <div class="relative w-1/3 flex items-center justify-center p-8" style="background-color: #33205c;">
+                    {% endif %}
+                        <!-- Date text -->
+                        <div class="relative z-10 text-center text-white font-bold">
+                            <span class="block text-5xl leading-none">{{ event.start_date|date:"d" }}</span>
+                            {% if event.end_date and event.end_date != event.start_date %}
+                            <span class="block text-5xl leading-none">-{{ event.end_date|date:"d" }}</span>
+                            {% endif %}
+                            <span class="block text-2xl mt-3">{{ event.start_date|date:"M" }}</span>
+                            <span class="block text-base uppercase mt-1 tracking-wide">{{ event.start_date|date:"Y" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Event Details (White section) -->
+                    <div class="flex-1 p-8 bg-white flex flex-col justify-center">
+                        <h3 class="text-3xl font-bold text-gray-900 mb-4 hover:text-pyos-deep-purple transition-colors">
+                            {{ event.title }}
+                        </h3>
+
+                        {% if event.excerpt %}
+                        <p class="text-lg text-gray-700 mb-6 line-clamp-3">{{ event.excerpt }}</p>
+                        {% endif %}
+
+                        <span class="inline-flex items-center text-lg text-pyos-deep-purple font-semibold hover:text-pyos-dark-purple">
+                            Learn More <i class="fas fa-arrow-right ml-2"></i>
+                        </span>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="py-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
+        <p class="text-gray-600">pyOpenSci doesn't have any events coming up right now. However, check back to see what we are planning!</p>
+    </div>
+</div>
+{% endif %}
+
+<!-- Past Events Section -->
+<div id="past-events" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <!-- Section Header -->
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">pyOpenSci Events</h2>
-        <p class="text-gray-600 mb-8">Workshops, webinars, and community gatherings</p>
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Past Events</h2>
+        <p class="text-gray-600 mb-4">Browse our complete event archive</p>
+
+        <!-- Year filter buttons -->
+        {% if available_years %}
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <a href="{% url 'core:events_index' %}#past-events"
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {% if not selected_year %}bg-pyos-deep-purple text-white hover:bg-pyos-dark-purple{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">
+                All Years
+            </a>
+            {% for year in available_years %}
+            <a href="{% url 'core:events_index' %}?year={{ year.year }}#past-events"
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {% if selected_year == year.year|stringformat:'s' %}bg-pyos-deep-purple text-white hover:bg-pyos-dark-purple{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">
+                {{ year.year }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 
     {% if events %}
@@ -94,6 +177,46 @@
         </article>
         {% endfor %}
     </div>
+
+    <!-- Pagination -->
+    {% if events.has_other_pages %}
+    <div class="flex justify-center mt-12">
+        <nav class="flex items-center gap-2">
+            {% if events.has_previous %}
+            <a href="?page={{ events.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}#past-events"
+               class="px-4 py-2 rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors">
+                <i class="fas fa-chevron-left"></i> Previous
+            </a>
+            {% else %}
+            <span class="px-4 py-2 rounded-lg bg-gray-200 text-gray-400 cursor-not-allowed">
+                <i class="fas fa-chevron-left"></i> Previous
+            </span>
+            {% endif %}
+
+            {% for num in events.paginator.page_range %}
+                {% if events.number == num %}
+                    <span class="px-4 py-2 rounded-lg bg-pyos-deep-purple text-white font-medium">{{ num }}</span>
+                {% elif num > events.number|add:'-3' and num < events.number|add:'3' %}
+                    <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}#past-events"
+                       class="px-4 py-2 rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors">
+                        {{ num }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+            {% if events.has_next %}
+            <a href="?page={{ events.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}#past-events"
+               class="px-4 py-2 rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors">
+                Next <i class="fas fa-chevron-right"></i>
+            </a>
+            {% else %}
+            <span class="px-4 py-2 rounded-lg bg-gray-200 text-gray-400 cursor-not-allowed">
+                Next <i class="fas fa-chevron-right"></i>
+            </span>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
 
     {% else %}
     <!-- Empty State -->

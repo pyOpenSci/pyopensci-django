@@ -1,27 +1,41 @@
 {% extends "base.html" %}
+{% load static wagtailimages_tags %}
 
 {% block title %}{{ page_title }} - pyOpenSci{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="bg-gradient-to-r from-purple-600 to-blue-600 py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl font-bold text-white mb-6">{{ hero_title }}</h1>
-        <p class="text-xl text-white opacity-90 max-w-3xl mx-auto">
-            {{ hero_subtitle }}
-        </p>
+<!-- Hero Section with Header Image -->
+<section class="relative text-white overflow-hidden" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('{% static "images/headers/pyopensci-learn-header.png" %}'); background-size: cover; background-position: center;">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold mb-6">{{ hero_title }}</h1>
+            <p class="text-xl opacity-90 max-w-3xl mx-auto">
+                {{ hero_subtitle }}
+            </p>
+        </div>
     </div>
-</div>
+</section>
 
 <!-- Blog Posts -->
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <!-- Section Header -->
     <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 mb-4">Recent pyOpenSci blog posts</h2>
-        <!-- Year filter buttons placeholder -->
-        <div class="text-gray-600 mb-8">
-            <p class="text-sm">Year filtering will be added later</p>
+        <!-- Year filter buttons -->
+        {% if available_years %}
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <a href="{% url 'core:blog_index' %}"
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {% if not selected_year %}bg-pyos-deep-purple text-white hover:bg-pyos-dark-purple{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">
+                All Years
+            </a>
+            {% for year in available_years %}
+            <a href="{% url 'core:blog_index' %}?year={{ year.year }}"
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {% if selected_year == year.year|stringformat:'s' %}bg-pyos-deep-purple text-white hover:bg-pyos-dark-purple{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">
+                {{ year.year }}
+            </a>
+            {% endfor %}
         </div>
+        {% endif %}
     </div>
 
     {% if blog_posts %}
@@ -77,6 +91,46 @@
         </article>
         {% endfor %}
     </div>
+
+    <!-- Pagination -->
+    {% if blog_posts.has_other_pages %}
+    <div class="flex justify-center mt-12">
+        <nav class="flex items-center gap-2">
+            {% if blog_posts.has_previous %}
+            <a href="?page={{ blog_posts.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}"
+               class="px-4 py-2 rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors">
+                <i class="fas fa-chevron-left"></i> Previous
+            </a>
+            {% else %}
+            <span class="px-4 py-2 rounded-lg bg-gray-200 text-gray-400 cursor-not-allowed">
+                <i class="fas fa-chevron-left"></i> Previous
+            </span>
+            {% endif %}
+
+            {% for num in blog_posts.paginator.page_range %}
+                {% if blog_posts.number == num %}
+                    <span class="px-4 py-2 rounded-lg bg-pyos-deep-purple text-white font-medium">{{ num }}</span>
+                {% elif num > blog_posts.number|add:'-3' and num < blog_posts.number|add:'3' %}
+                    <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}"
+                       class="px-4 py-2 rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors">
+                        {{ num }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+            {% if blog_posts.has_next %}
+            <a href="?page={{ blog_posts.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}"
+               class="px-4 py-2 rounded-lg bg-gray-300 text-gray-800 hover:bg-gray-400 transition-colors">
+                Next <i class="fas fa-chevron-right"></i>
+            </a>
+            {% else %}
+            <span class="px-4 py-2 rounded-lg bg-gray-200 text-gray-400 cursor-not-allowed">
+                Next <i class="fas fa-chevron-right"></i>
+            </span>
+            {% endif %}
+        </nav>
+    </div>
+    {% endif %}
 
     {% else %}
     <!-- Empty State -->

@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import logging
 
 from .utils import (
@@ -67,7 +68,8 @@ def blog_index(request):
     Blog index view for PyOpenSci.
 
     Static Django view that queries Wagtail BlogPage instances
-    to display all blog posts in a consistent index page.
+    to display all blog posts in a consistent index page with pagination
+    and optional year filtering.
 
     Parameters
     ----------
@@ -77,15 +79,44 @@ def blog_index(request):
     Returns
     -------
     HttpResponse
-        Rendered blog index page with blog posts.
+        Rendered blog index page with paginated blog posts.
     """
+    # Get year filter from query params
+    year_filter = request.GET.get('year')
+
+    # Base queryset
     blog_posts = BlogPage.objects.live().select_related('author').order_by('-date')
+
+    # Apply year filter if provided
+    if year_filter and year_filter.isdigit():
+        blog_posts = blog_posts.filter(date__year=int(year_filter))
+
+    # Get available years for filter dropdown
+    available_years = (
+        BlogPage.objects.live()
+        .dates('date', 'year', order='DESC')
+    )
+
+    # Pagination: 12 posts per page
+    paginator = Paginator(blog_posts, 12)
+    page = request.GET.get('page')
+
+    try:
+        paginated_posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page
+        paginated_posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results
+        paginated_posts = paginator.page(paginator.num_pages)
 
     context = {
         'page_title': 'pyOpenSci Blog',
         'hero_title': 'pyOpenSci Blog',
         'hero_subtitle': 'Here we will both post updates about pyOpenSci and also highlight contributors. We will also highlight new packages that have been reviewed and accepted into the pyOpenSci ecosystem.',
-        'blog_posts': blog_posts,
+        'blog_posts': paginated_posts,
+        'available_years': available_years,
+        'selected_year': year_filter,
     }
     return render(request, 'core/blog_index.html', context)
 
@@ -95,7 +126,8 @@ def events_index(request):
     Events index view for PyOpenSci.
 
     Static Django view that queries Wagtail EventPage instances
-    to display all events in a consistent index page.
+    to display all events in a consistent index page with pagination
+    and optional year filtering.
 
     Parameters
     ----------
@@ -105,15 +137,52 @@ def events_index(request):
     Returns
     -------
     HttpResponse
-        Rendered events index page with events.
+        Rendered events index page with paginated events.
     """
+    # Get year filter from query params
+    year_filter = request.GET.get('year')
+
+    # Base queryset
     events = EventPage.objects.live().select_related('author').prefetch_related('tags').order_by('-start_date')
+
+    # Apply year filter if provided
+    if year_filter and year_filter.isdigit():
+        events = events.filter(start_date__year=int(year_filter))
+
+    # Get available years for filter dropdown
+    available_years = (
+        EventPage.objects.live()
+        .dates('start_date', 'year', order='DESC')
+    )
+
+    # Pagination: 15 events per page
+    paginator = Paginator(events, 15)
+    page = request.GET.get('page')
+
+    try:
+        paginated_events = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page
+        paginated_events = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results
+        paginated_events = paginator.page(paginator.num_pages)
+
+    # Separate upcoming and past events
+    from django.utils import timezone
+    today = timezone.now().date()
+
+    upcoming_events = EventPage.objects.live().filter(start_date__gte=today).select_related('author').prefetch_related('tags').order_by('start_date')
 
     context = {
         'page_title': 'pyOpenSci Events',
         'hero_title': 'pyOpenSci Events',
-        'hero_subtitle': 'Join us for workshops, webinars, and community events. Connect with the scientific Python community and learn about open source best practices.',
-        'events': events,
+        'hero_subtitle': 'pyOpenSci holds events that support scientists developing open science skills.',
+        'events': paginated_events,
+        'upcoming_events': upcoming_events,
+        'available_years': available_years,
+        'selected_year': year_filter,
+        'today': today,
     }
     return render(request, 'core/events_index.html', context)
 
