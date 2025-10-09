@@ -209,15 +209,40 @@
             <h2 class="text-3xl font-bold text-center mb-8 text-pyos-deep-purple font-poppins">Recent blog posts & updates</h2>
             
             <div class="grid md:grid-cols-3 gap-6 mb-8">
-                <!-- Placeholder blog post cards -->
-                {% for i in "123" %}
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div class="h-40 bg-gradient-to-br from-pyos-medium-purple to-pyos-dark-purple"></div>
-                    <div class="p-6">
-                        <h3 class="font-bold mb-2 text-pyos-deep-purple">Blog Post Title {{ forloop.counter }}</h3>
-                        <p class="text-sm text-gray-600 mb-2">March {{ forloop.counter }}, 2025</p>
-                        <p class="text-gray-700 text-sm">Brief description of the blog post content...</p>
+                {% for post in recent_blog_posts %}
+                <a href="/blog/{{ post.slug }}/" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 block">
+                    <!-- Header Image -->
+                    {% if post.header_image %}
+                    <div class="h-40 overflow-hidden">
+                        <img src="{{ post.header_image.url }}"
+                             alt="{{ post.header_image_alt|default:post.title }}"
+                             class="w-full h-full object-cover">
                     </div>
+                    {% else %}
+                    <div class="h-40 bg-gradient-to-br from-pyos-medium-purple to-pyos-dark-purple"></div>
+                    {% endif %}
+
+                    <div class="p-6">
+                        <h3 class="font-bold mb-2 text-pyos-deep-purple hover:text-pyos-dark-purple transition-colors">{{ post.title }}</h3>
+
+                        <!-- Meta: Date and Author -->
+                        <p class="text-sm text-gray-600 mb-3">
+                            {{ post.date|date:"F j, Y" }}
+                            {% if post.author %}
+                                · {{ post.author.name }}
+                            {% endif %}
+                        </p>
+
+                        <!-- Excerpt -->
+                        {% if post.excerpt %}
+                        <p class="text-gray-700 text-sm">{{ post.excerpt|truncatewords:20 }}</p>
+                        {% endif %}
+                    </div>
+                </a>
+                {% empty %}
+                <!-- Fallback if no blog posts exist -->
+                <div class="col-span-3 text-center text-gray-500 py-8">
+                    <p>No blog posts available yet. Check back soon!</p>
                 </div>
                 {% endfor %}
             </div>

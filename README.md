@@ -51,17 +51,40 @@ create a superuser (admin) account which can be used for Django Admin and Wagtai
 uv run python manage.py createsuperuser
 ```
 
-### 4. Run Development Server
+### 4. Generate Test Data (optional but recommended)
+
+To see how blog and events pages look with content,
+generate dummy blog posts and events:
+
+```bash
+# Generate default test data (25 blog posts, 20 events)
+uv run python manage.py create_dummy_posts
+
+# Or specify custom amounts
+uv run python manage.py create_dummy_posts --blog-posts=30 --events=25
+
+# Delete any existing dummy data
+uv run python manage.py create_dummy_posts --delete
+```
+
+This command creates:
+- Blog posts distributed across multiple years (for testing year filters)
+- Events with both past and upcoming dates
+- Random tags, authors, and excerpts
+- All posts are automatically published and visible
+
+### 5. Run Development Server
 
 ```bash
 # Start Django development server
 uv run python manage.py runserver
 ```
 
-## Testing the Homepage Migration
+## Available Pages
 
 - **Homepage (Django)**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-- **Blog (Wagtail)**: [http://127.0.0.1:8000/blog/](http://127.0.0.1:8000/blog/)
+- **Blog Index**: [http://127.0.0.1:8000/blog/](http://127.0.0.1:8000/blog/)
+- **Events Index**: [http://127.0.0.1:8000/events/](http://127.0.0.1:8000/events/)
 - **Wagtail Admin**: [http://127.0.0.1:8000/cms/](http://127.0.0.1:8000/cms/)
 - **Django Admin**: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
 
