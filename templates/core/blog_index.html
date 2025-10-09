@@ -21,19 +21,28 @@
     <!-- Section Header -->
     <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-900 mb-4">Recent pyOpenSci blog posts</h2>
-        <!-- Year filter buttons -->
+        <!-- Year filter dropdown -->
         {% if available_years %}
-        <div class="flex flex-wrap justify-center gap-2 mb-8">
-            <a href="{% url 'core:blog_index' %}"
-               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {% if not selected_year %}bg-pyos-deep-purple text-white hover:bg-pyos-dark-purple{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">
-                All Years
-            </a>
-            {% for year in available_years %}
-            <a href="{% url 'core:blog_index' %}?year={{ year.year }}"
-               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {% if selected_year == year.year|stringformat:'s' %}bg-pyos-deep-purple text-white hover:bg-pyos-dark-purple{% else %}bg-gray-300 text-gray-800 hover:bg-gray-400{% endif %}">
-                {{ year.year }}
-            </a>
-            {% endfor %}
+        <div class="flex justify-center items-center gap-4 mb-8">
+            <label for="year-filter" class="text-sm font-medium text-gray-700">Filter by year:</label>
+            <div class="relative inline-block">
+                <select id="year-filter"
+                        onchange="window.location.href=this.value"
+                        class="appearance-none bg-white border-2 border-pyos-deep-purple rounded-lg px-4 py-2 pr-12 font-medium text-pyos-deep-purple hover:bg-pyos-light-purple focus:outline-none focus:ring-2 focus:ring-pyos-deep-purple focus:border-pyos-deep-purple transition-all cursor-pointer shadow-sm">
+                    <option value="{% url 'core:blog_index' %}" {% if not selected_year %}selected{% endif %}>All Years</option>
+                    {% for year in available_years %}
+                    <option value="{% url 'core:blog_index' %}?year={{ year.year }}"
+                            {% if selected_year == year.year|stringformat:'s' %}selected{% endif %}>
+                        {{ year.year }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-pyos-deep-purple">
+                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
         {% endif %}
     </div>

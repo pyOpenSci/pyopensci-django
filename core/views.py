@@ -50,7 +50,14 @@ def home(request):
 
     # Fetch recent packages from YAML
     recent_packages = get_recent_packages(count=3)
-    
+
+    # Fetch recent blog posts from Wagtail
+    recent_blog_posts = (
+        BlogPage.objects.live()
+        .select_related('author')
+        .order_by('-date')[:3]
+    )
+
     context = {
         'page_title': 'Welcome to pyOpenSci',
         'hero_title': 'We make it easier for scientists to create, find, maintain, and contribute to reusable code and software.',
@@ -59,6 +66,8 @@ def home(request):
         'recent_contributors': recent_contributors,
         # Used for the "Recently Accepted Python Packages" section on the home page
         'recent_packages': recent_packages,
+        # Used for the "Recent blog posts & updates" section on the home page
+        'recent_blog_posts': recent_blog_posts,
     }
     return render(request, 'core/home.html', context)
 
@@ -203,7 +212,37 @@ def serve_blog_page(request, slug):
     HttpResponse
         Rendered blog page using Wagtail's serve mechanism
     """
-    page = get_object_or_404(BlogPage.objects.live().select_related('author'), slug=slug)
+    page = get_object_or_404(BlogPage.objects.live().select_related('author').prefetch_related('tags'), slug=slug)
+
+    # Get related posts based on tag overlap
+    page_tags = page.tags.all()
+    related_posts = []
+
+    if page_tags:
+        # Find posts with overlapping tags
+        from django.db.models import Count
+        related_posts = (
+            BlogPage.objects.live()
+            .select_related('author')
+            .prefetch_related('tags')
+            .filter(tags__in=page_tags)
+            .exclude(pk=page.pk)
+            .annotate(same_tags=Count('pk'))
+            .order_by('-same_tags', '-date')[:3]
+        )
+
+    # Fallback to recent posts if no tag matches
+    if not related_posts:
+        related_posts = (
+            BlogPage.objects.live()
+            .select_related('author')
+            .exclude(pk=page.pk)
+            .order_by('-date')[:3]
+        )
+
+    # Add related_posts to the page context
+    page.related_posts = related_posts
+
     return page.serve(request)
 
 
@@ -224,4 +263,34 @@ def serve_event_page(request, slug):
         Rendered event page using Wagtail's serve mechanism
     """
     page = get_object_or_404(EventPage.objects.live().select_related('author').prefetch_related('tags'), slug=slug)
+
+    # Get related events based on tag overlap
+    page_tags = page.tags.all()
+    related_events = []
+
+    if page_tags:
+        # Find events with overlapping tags
+        from django.db.models import Count
+        related_events = (
+            EventPage.objects.live()
+            .select_related('author')
+            .prefetch_related('tags')
+            .filter(tags__in=page_tags)
+            .exclude(pk=page.pk)
+            .annotate(same_tags=Count('pk'))
+            .order_by('-same_tags', '-start_date')[:3]
+        )
+
+    # Fallback to recent events if no tag matches
+    if not related_events:
+        related_events = (
+            EventPage.objects.live()
+            .select_related('author')
+            .exclude(pk=page.pk)
+            .order_by('-start_date')[:3]
+        )
+
+    # Add related_events to the page context
+    page.related_events = related_events
+
     return page.serve(request)
