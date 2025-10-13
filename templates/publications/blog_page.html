@@ -94,5 +94,42 @@
         <p class="text-gray-600">Comments system integration placeholder</p>
     </div>
     {% endif %}
+
+    <!-- Related Posts -->
+    {% if page.related_posts %}
+    <div class="mt-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">You May Also Enjoy</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            {% for post in page.related_posts %}
+            <a href="/blog/{{ post.slug }}/" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 block flex flex-col">
+                <!-- Header Image -->
+                {% if post.header_image %}
+                <div class="h-40 overflow-hidden flex-shrink-0">
+                    <img src="{{ post.header_image.url }}"
+                         alt="{{ post.header_image_alt|default:post.title }}"
+                         class="w-full h-full object-cover">
+                </div>
+                {% else %}
+                <div class="h-40 bg-gradient-to-br from-pyos-medium-purple to-pyos-dark-purple flex-shrink-0"></div>
+                {% endif %}
+
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="font-bold text-base mb-3 text-pyos-deep-purple hover:text-pyos-dark-purple transition-colors line-clamp-2">{{ post.title }}</h3>
+
+                    <!-- Meta: Date -->
+                    <p class="text-sm text-gray-600 mb-3">
+                        {{ post.date|date:"F j, Y" }}
+                    </p>
+
+                    <!-- Excerpt -->
+                    {% if post.excerpt %}
+                    <p class="text-gray-700 text-sm line-clamp-3">{{ post.excerpt|truncatewords:15 }}</p>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
