@@ -1,7 +1,6 @@
 # pyopensci-django
 
 A repository to migrate the pyOpenSci Jekyll site to Django with Wagtail CMS.
-I am making a pull request demo. 
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
@@ -29,6 +28,13 @@ uv sync
 
 # Install Node.js packages for TailwindCSS
 npm install
+```
+
+If you are running a development server locally and you have set things up previously, you may want to delete your existing 
+database and start from scratch. To do this, delete the `db.sqlite3` file in the project root:
+
+```bash
+rm db.sqlite3
 ```
 
 ### 2. Build CSS and Set Up Database
@@ -68,7 +74,7 @@ uv run python manage.py create_dummy_posts --delete
 ```
 
 This command creates:
-- Blog posts distributed across multiple years (for testing year filters)
+- Blog posts distributed across multiple years (for testing the drop down, year filters)
 - Events with both past and upcoming dates
 - Random tags, authors, and excerpts
 - All posts are automatically published and visible
